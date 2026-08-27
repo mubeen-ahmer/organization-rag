@@ -1,0 +1,70 @@
+================================================================================
+VERANO APPAREL LTD. — Q3 EXECUTIVE OPERATIONS & PLANNING MEETING NOTES
+Date: July 28, 2026 | Time: 10:00 AM – 1:30 PM PKT | Location: Head Office Conference Room B, Lahore
+Chairperson: Managing Director | Minute Taker: Sarah Jenkins (Senior HR Generalist)
+================================================================================
+
+ATTENDEES:
+- Tariq Mahmood (Head of Human Resources)
+- Sarah Jenkins (Senior HR Generalist)
+- Maria Santos (Regional Retail Operations Manager)
+- Usman Ali (E-Commerce Lead & Digital Operations Coordinator)
+- Ayesha Khan (Head of Marketing)
+- Zaid Hassan (Store Representative — MM Alam Road Flagship)
+- Faisal Raza (Store Lead — Kohinoor City Mall Faisalabad)
+
+--------------------------------------------------------------------------------
+1. OPENING & QUARTERLY REVIEW SUMMARY
+--------------------------------------------------------------------------------
+- Maria Santos reported strong retail performance for Q2/Q3, driven by high demand for Slim Fit Stretch Denim (SKU: JNS-SLM-101) and Performance Tech Joggers (SKU: ACT-JOG-201).
+- Total Q2 sales revenue across 3 stores and e-commerce reached PKR 92.4 Million, exceeding quarterly forecast by 6.8%.
+- Online store (VeranoApparel.pk) accounted for 22.1% of total sales revenue in July 2026.
+
+--------------------------------------------------------------------------------
+2. KEY DECISIONS & ACTION ITEMS (WITH APPROVED DEADLINES)
+--------------------------------------------------------------------------------
+
+[DECISION #1 — RE-STOCKING & INVENTORY REORDER LEVEL ADJUSTMENTS]
+- Current stock out of Classic Crewneck Tee (Navy Blue / Size M) at MM Alam Store requires immediate resolution.
+- DECISION: Reorder 1,500 units of TSH-CRW-001 and 800 units of JNS-SLM-101 from Master Textile Mills (Faisalabad).
+- TARGET DATE: Order placement by August 2, 2026. Warehouse intake scheduled for August 12, 2026.
+- RESPONSIBLE: Inventory Manager (Job Code JOB-2026-005 hire) & Maria Santos.
+
+[DECISION #2 — RECRUITMENT & HR APPROVED HIRING PLAN]
+- Tariq Mahmood presented HR recruitment pipeline.
+- DECISION: Approved immediate hiring for 4 priority open positions from the HIRING_OPENINGS roster:
+  1. Store Manager for Packages Mall (JOB-2026-002) — Budget PKR 115,000/mo.
+  2. Senior Visual Merchandiser (JOB-2026-003) — Budget PKR 130,000/mo.
+  3. E-Commerce Store Coordinator (JOB-2026-004) — Budget PKR 110,000/mo.
+  4. Retail Sales Associates for Kohinoor City Mall (JOB-2026-006) — 2 slots at PKR 50,000/mo.
+- TARGET DATE: Offer letters to be issued by August 18, 2026. Onboarding date set for September 1, 2026.
+- RESPONSIBLE: Sarah Jenkins (HR).
+
+[DECISION #3 — Q4 SALES REVENUE TARGETS & PROMOTIONS]
+- Ayesha Khan presented initial holiday promotion strategy for Winter Collection launching in October 2026.
+- DECISION: Q4 Gross Sales Revenue Target fixed at PKR 110.0 Million across all channels:
+  * MM Alam Flagship: PKR 42.0 Million
+  * Packages Mall Branch: PKR 28.0 Million
+  * Kohinoor City Mall Branch: PKR 18.0 Million
+  * Online Store (VeranoApparel.pk): PKR 22.0 Million
+- TARGET DATE: Campaign kickoff October 15, 2026.
+
+[DECISION #4 — STAFF DISCOUNT POLICY AUDIT]
+- Tariq Mahmood noted minor discrepancies in manual staff discount processing at POS registers.
+- DECISION: Enforce automated staff discount verification using employee ID barcode scanning in POS, keeping strict alignment with Section 3 of HR Policy (40% discount cap at PKR 250,000 MSRP/year).
+- TARGET DATE: POS software patch rollout across all stores by August 10, 2026.
+- RESPONSIBLE: Usman Ali & POS Systems Vendor.
+
+[DECISION #5 — FAISALABAD KOHINOOR STORE EXPANSION & STOCKROOM LEASE]
+- Faisal Raza requested extra stock storage space at Kohinoor City Mall branch to accommodate winter outerwear stock (JKT-BMB-301 & JKT-WND-302).
+- DECISION: Approved leasing additional 600 sq. ft. basement storage adjacent to Kohinoor branch at PKR 65,000/month rent.
+- TARGET DATE: Lease agreement signing by August 5, 2026.
+
+--------------------------------------------------------------------------------
+3. NEXT MEETING SCHEDULE
+--------------------------------------------------------------------------------
+- Next Executive Ops Meeting scheduled for September 2, 2026 at 10:00 AM in Head Office Conference Room A.
+
+Meeting adjourned at 1:30 PM.
+Minutes approved by: Tariq Mahmood (Head of HR) & Maria Santos (Regional Retail Ops Manager).
+================================================================================
