@@ -7,3 +7,5 @@ run.ipynb
 
 main.py
 
+.venv/
+chroma_db/

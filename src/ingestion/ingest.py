@@ -1,11 +1,10 @@
 import os
 import hashlib
 import json
-from src.loaders.loaderRegistry import loadFile
+from src.loaders.loaderRegistry import loadFile, LOADER_MAP
 from src.chunking.textChunker import chunkText
 
-MANIFEST_PATH = "data/manifest.json"
-RAW_DATA_PATH = "data/raw"
+from src.config import MANIFEST_PATH, RAW_DATA_DIR
 
 def _getFileHash(path : str):
     with open(path,"rb") as f:
@@ -27,11 +26,14 @@ def _saveManifest(manifest):
 def ingestNewFiles(vectorstore):
     manifest = _loadManifest()
     updatedManifest = manifest.copy()
+    ingested_count = 0
     
-    for root,_,files in os.walk(RAW_DATA_PATH):
-        # print(root,files)
+    for root,_,files in os.walk(RAW_DATA_DIR):
         for file in files: 
             filepath = os.path.join(root,file)
+            ext = os.path.splitext(filepath)[1].lower()
+            if ext not in LOADER_MAP:
+                continue
             currentHash = _getFileHash(filepath)
             if currentHash == manifest.get(filepath):
                 continue
@@ -41,7 +43,8 @@ def ingestNewFiles(vectorstore):
             vectorstore.add_documents(chunks)
             
             updatedManifest[filepath]=currentHash
-            
+            ingested_count += 1
     _saveManifest(updatedManifest)
             
-        
+    if ingested_count != 0:
+        print(f"Ingested {ingested_count} file(s).")
