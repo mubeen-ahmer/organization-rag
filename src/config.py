@@ -16,4 +16,4 @@ CHUNK_OVERLAP = 30
 
 # Model configurations
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-LLM_MODEL_NAME = "gemini-1.5-flash"
+LLM_MODEL_NAME = "gemini-3.6-flash"
