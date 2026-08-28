@@ -5,7 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from src.config import LLM_MODEL_NAME
-from src.retrieval.vector_retriever import get_vectorstore
+from src.retrieval.hybrid_retriever import get_hybrid_retriever
 
 load_dotenv()
 
@@ -24,8 +24,8 @@ def _format_docs(docs):
     return "\n\n---\n\n".join(doc.page_content for doc in docs)
 
 def get_rag_chain():
-    vectorstore = get_vectorstore()
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
+
+    retriever = get_hybrid_retriever(k=4)
 
     prompt = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     llm = ChatGoogleGenerativeAI(model=LLM_MODEL_NAME)

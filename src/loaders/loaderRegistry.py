@@ -2,11 +2,13 @@ import os
 from src.loaders.txtLoader import loadTxt
 from src.loaders.pdfLoader import loadPdf
 from src.loaders.docxLoader import loadDocx
+from src.loaders.csvLoader import loadCSV
 
 LOADER_MAP = {
     ".txt": loadTxt,
     ".pdf": loadPdf,
     ".docx": loadDocx,
+    ".csv": loadCSV
 }
 
 def loadFile(path : str):
