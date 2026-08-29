@@ -8,6 +8,7 @@ PROJECT_ROOT = os.path.dirname(SRC_DIR)
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
 RAW_DATA_DIR = os.path.join(DATA_DIR, "raw")
 CHROMA_DB_DIR = os.path.join(DATA_DIR, "chroma_db")
+SQLITE_DB_PATH = os.path.join(DATA_DIR, "company_data.db")
 MANIFEST_PATH = os.path.join(DATA_DIR, "manifest.json")
 
 # Chunking configurations

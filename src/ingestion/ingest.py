@@ -1,10 +1,15 @@
 import os
+import re
 import hashlib
 import json
+import sqlite3
+import pandas as pd
 from src.loaders.loaderRegistry import loadFile, LOADER_MAP
 from src.chunking.textChunker import chunkText
+from src.config import MANIFEST_PATH, RAW_DATA_DIR, SQLITE_DB_PATH
 
-from src.config import MANIFEST_PATH, RAW_DATA_DIR
+# Supported tabular formats for SQLite ingestion
+SQL_EXTENSIONS = {".csv", ".xlsx", ".xls"}
 
 def _getFileHash(path : str):
     with open(path,"rb") as f:
@@ -22,7 +27,31 @@ def _loadManifest():
 def _saveManifest(manifest):
     with open(MANIFEST_PATH, "w") as f:
         json.dump(manifest, f, indent=2)
+
+def _ingest_to_sqlite(filepath: str):
+    """
+    Ingests a tabular file (CSV/Excel) into the SQLite database.
+    """
+    ext = os.path.splitext(filepath)[1].lower()
+    if ext == ".csv":
+        df = pd.read_csv(filepath)
+    elif ext in {".xlsx", ".xls"}:
+        df = pd.read_excel(filepath)
+    else:
+        return
         
+    # Sanitize column names for SQL (replace non-word chars with underscores)
+    df.columns = [re.sub(r'\W+', '_', col).strip('_') for col in df.columns]
+    
+    # Establish connection and write table
+    conn = sqlite3.connect(SQLITE_DB_PATH)
+    table_name = os.path.splitext(os.path.basename(filepath))[0]
+    table_name = re.sub(r'\W+', '_', table_name).strip('_')
+    
+    df.to_sql(table_name, conn, if_exists="replace", index=False)
+    conn.close()
+    print(f"Ingested {os.path.basename(filepath)} into SQLite table '{table_name}'.")
+
 def ingestNewFiles(vectorstore):
     manifest = _loadManifest()
     updatedManifest = manifest.copy()
@@ -32,19 +61,27 @@ def ingestNewFiles(vectorstore):
         for file in files: 
             filepath = os.path.join(root,file)
             ext = os.path.splitext(filepath)[1].lower()
-            if ext not in LOADER_MAP:
+            
+            is_tabular = ext in SQL_EXTENSIONS
+            is_prose = ext in LOADER_MAP
+            
+            if not is_tabular and not is_prose:
                 continue
+                
             currentHash = _getFileHash(filepath)
             if currentHash == manifest.get(filepath):
                 continue
-            docs = loadFile(filepath)
-            chunks = chunkText(docs)
-            
-            vectorstore.add_documents(chunks)
+                
+            if is_tabular:
+                _ingest_to_sqlite(filepath)
+            elif is_prose:
+                docs = loadFile(filepath)
+                chunks = chunkText(docs)
+                vectorstore.add_documents(chunks)
             
             updatedManifest[filepath]=currentHash
             ingested_count += 1
-    _saveManifest(updatedManifest)
             
+    _saveManifest(updatedManifest)
     if ingested_count != 0:
-        print(f"Ingested {ingested_count} file(s).")
+        print(f"Ingestion check complete. Updated {ingested_count} file(s).")
