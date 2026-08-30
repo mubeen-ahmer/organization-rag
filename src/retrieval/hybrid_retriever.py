@@ -17,9 +17,9 @@ def get_hybrid_retriever(k: int = 4, weights: list = [0.5, 0.5]):
     )
     return ensemble_retriever
 
-def retrieve_hybrid(query: str, k: int = 4):
-    """
-    Retrieves documents using hybrid search (Vector + BM25).
-    """
-    retriever = get_hybrid_retriever(k=k)
-    return retriever.invoke(query)
+# def retrieve_hybrid(query: str, k: int = 4):
+#     """
+#     Retrieves documents using hybrid search (Vector + BM25).
+#     """
+#     retriever = get_hybrid_retriever(k=k)
+#     return retriever.invoke(query)

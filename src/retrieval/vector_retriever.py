@@ -9,7 +9,7 @@ def get_vectorstore():
         embedding_function=embeddings
     )
 
-def retrieve_documents(query: str, k: int = 4):
-    vectorstore = get_vectorstore()
-    retriever = vectorstore.as_retriever(search_kwargs={"k": k})
-    return retriever.get_relevant_documents(query)
+# def retrieve_documents(query: str, k: int = 4):
+#     vectorstore = get_vectorstore()
+#     retriever = vectorstore.as_retriever(search_kwargs={"k": k})
+#     return retriever.get_relevant_documents(query)

@@ -23,6 +23,6 @@ def get_keyword_retriever(k: int = 4):
     retriever.k = k
     return retriever
 
-def retrieve_by_keywords(query: str, k: int = 4):
-    retriever = get_keyword_retriever(k=k)
-    return retriever.invoke(query)
+# def retrieve_by_keywords(query: str, k: int = 4):
+#     retriever = get_keyword_retriever(k=k)
+#     return retriever.invoke(query)
