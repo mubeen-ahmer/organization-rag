@@ -81,7 +81,10 @@ def ingestNewFiles(vectorstore):
                 tabular_changed = True  # NEW
             elif is_prose:
                 docs = loadFile(filepath)
-                chunks = chunkText(docs)
+                if ext != ".html":
+                    chunks = chunkText(docs)
+                else:
+                    chunks = docs
                 vectorstore.add_documents(chunks)
                 prose_changed = True
 
