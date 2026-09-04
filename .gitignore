@@ -5,6 +5,6 @@ __pycache__/
 
 run*
 
-
+bm25_index*
 .venv/
 chroma_db/

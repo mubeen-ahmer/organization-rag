@@ -7,6 +7,7 @@ import pandas as pd
 from src.loaders.loaderRegistry import loadFile, LOADER_MAP
 from src.chunking.textChunker import chunkText
 from src.config import MANIFEST_PATH, RAW_DATA_DIR, SQLITE_DB_PATH
+from src.retrieval.keyword_retriever import rebuild_keyword_index
 
 # Supported tabular formats for SQLite ingestion
 SQL_EXTENSIONS = {".csv", ".xlsx", ".xls"}
@@ -56,7 +57,8 @@ def ingestNewFiles(vectorstore):
     manifest = _loadManifest()
     updatedManifest = manifest.copy()
     ingested_count = 0
-    
+    prose_changed = False  # NEW
+
     for root,_,files in os.walk(RAW_DATA_DIR):
         for file in files: 
             filepath = os.path.join(root,file)
@@ -78,10 +80,15 @@ def ingestNewFiles(vectorstore):
                 docs = loadFile(filepath)
                 chunks = chunkText(docs)
                 vectorstore.add_documents(chunks)
+                prose_changed = True  # NEW
             
             updatedManifest[filepath]=currentHash
             ingested_count += 1
             
     _saveManifest(updatedManifest)
+    if prose_changed:
+        print("New prose documents detected — rebuilding BM25 keyword index...")
+        rebuild_keyword_index()
+
     if ingested_count != 0:
         print(f"Ingestion check complete. Updated {ingested_count} file(s).")
