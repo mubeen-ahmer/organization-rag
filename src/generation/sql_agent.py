@@ -65,7 +65,7 @@ def query_database(question: str) -> str:
     if not schema:
         return "No tabular data is currently available in the database."
         
-    llm = ChatGoogleGenerativeAI(model=LLM_MODEL_NAME, temperature=0.0)
+    llm = ChatGoogleGenerativeAI(model=LLM_MODEL_NAME)
     prompt = ChatPromptTemplate.from_template(SYSTEM_PROMPT)
     chain = prompt | llm | StrOutputParser()
     
