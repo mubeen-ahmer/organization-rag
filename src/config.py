@@ -19,3 +19,5 @@ CHUNK_OVERLAP = 30
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 LLM_MODEL_NAME = "gemini-3.6-flash"
 BM25_INDEX_PATH = os.path.join(DATA_DIR, "bm25_index.pkl")
+
+SCHEMA_CACHE_PATH = os.path.join(DATA_DIR, "schema_cache.txt")

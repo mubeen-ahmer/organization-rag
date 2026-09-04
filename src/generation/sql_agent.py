@@ -1,48 +1,112 @@
 import sqlite3
+import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from src.config import LLM_MODEL_NAME, SQLITE_DB_PATH
+from src.config import LLM_MODEL_NAME, SQLITE_DB_PATH, SCHEMA_CACHE_PATH
 
 load_dotenv()
+_schema_cache = None
 
-def get_db_schema() -> str:
+def _build_schema() -> str:
     """
-    Retrieves the schemas and sample rows for all tables in the SQLite database.
+    Actually queries SQLite to build the schema description.
+    This is the original get_db_schema() body, unchanged.
     """
     conn = sqlite3.connect(SQLITE_DB_PATH)
     cursor = conn.cursor()
-    
-    # Get all table names
+
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
-    
+
     schema_info = []
     for table_tuple in tables:
         table_name = table_tuple[0]
-        # Skip sqlite internal tables
         if table_name.startswith("sqlite_"):
             continue
-            
-        # Get CREATE TABLE statement
+
         cursor.execute(f"SELECT sql FROM sqlite_master WHERE type='table' AND name='{table_name}';")
         create_sql = cursor.fetchone()[0]
-        
-        # Get a few sample rows
+
         cursor.execute(f"SELECT * FROM {table_name} LIMIT 3;")
         sample_rows = cursor.fetchall()
-        
-        # Get column headers
+
         cursor.execute(f"PRAGMA table_info({table_name});")
         columns = [col[1] for col in cursor.fetchall()]
-        
+
         sample_str = "\n".join(str(dict(zip(columns, row))) for row in sample_rows)
-        
         schema_info.append(f"Table: {table_name}\nSchema:\n{create_sql}\nSample Rows:\n{sample_str}\n")
-        
+
     conn.close()
-    return "\n---\n".join(schema_info)
+    schema = "\n---\n".join(schema_info)
+
+    with open(SCHEMA_CACHE_PATH, "w") as f:
+        f.write(schema)
+
+    return schema
+
+def get_db_schema() -> str:
+    """
+    Returns the cached schema if available, otherwise builds it.
+    """
+    global _schema_cache
+
+    if _schema_cache is not None:
+        return _schema_cache
+
+    if os.path.exists(SCHEMA_CACHE_PATH):
+        with open(SCHEMA_CACHE_PATH, "r") as f:
+            _schema_cache = f.read()
+        return _schema_cache
+
+    _schema_cache = _build_schema()
+    return _schema_cache
+
+def rebuild_schema_cache() -> str:
+    """
+    Force a full rebuild of the schema cache from current SQLite tables.
+    Call this only when tabular files were actually ingested.
+    """
+    global _schema_cache
+    _schema_cache = _build_schema()
+    return _schema_cache
+# def get_db_schema() -> str:
+#     """
+#     Retrieves the schemas and sample rows for all tables in the SQLite database.
+#     """
+#     conn = sqlite3.connect(SQLITE_DB_PATH)
+#     cursor = conn.cursor()
+    
+#     # Get all table names
+#     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+#     tables = cursor.fetchall()
+    
+#     schema_info = []
+#     for table_tuple in tables:
+#         table_name = table_tuple[0]
+#         # Skip sqlite internal tables
+#         if table_name.startswith("sqlite_"):
+#             continue
+            
+#         # Get CREATE TABLE statement
+#         cursor.execute(f"SELECT sql FROM sqlite_master WHERE type='table' AND name='{table_name}';")
+#         create_sql = cursor.fetchone()[0]
+        
+#         # Get a few sample rows
+#         cursor.execute(f"SELECT * FROM {table_name} LIMIT 3;")
+#         sample_rows = cursor.fetchall()
+        
+#         # Get column headers
+#         cursor.execute(f"PRAGMA table_info({table_name});")
+#         columns = [col[1] for col in cursor.fetchall()]
+        
+#         sample_str = "\n".join(str(dict(zip(columns, row))) for row in sample_rows)
+        
+#         schema_info.append(f"Table: {table_name}\nSchema:\n{create_sql}\nSample Rows:\n{sample_str}\n")
+        
+#     conn.close()
+#     return "\n---\n".join(schema_info)
 
 SYSTEM_PROMPT = """You are a SQLite database assistant.
 Given the tables and schemas below, write a read-only SQLite query to answer the user's question.
