@@ -103,8 +103,7 @@ async def chat_stream_endpoint(question: str):
         prompt = ChatPromptTemplate.from_template(ROUTER_PROMPT)
         route_chain = prompt | router_llm | StrOutputParser()
         
-        raw_route = route_chain.invoke({"question": question})
-        route = str(raw_route).strip().lower()
+        route = route_chain.invoke({"question": question}).strip().lower()
         
         if "tabular" in route:
             # Yield metadata signal first
@@ -117,7 +116,7 @@ async def chat_stream_endpoint(question: str):
             # Stream tokens asynchronously from LLM
             for chunk in rag_chain.stream(question):
                 # Format chunk as Server-Sent Event
-                cleaned_chunk = str(chunk).replace("\n", "\\n")
+                cleaned_chunk = chunk.replace("\n", "\\n")
                 yield f"data: {cleaned_chunk}\n\n"
                 await asyncio.sleep(0.01)
                 
@@ -125,15 +124,3 @@ async def chat_stream_endpoint(question: str):
 
     return StreamingResponse(token_generator(), media_type="text/event-stream")
 
-# Mount frontend directory for static serving
-FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "frontend")
-
-if os.path.exists(FRONTEND_DIR):
-    app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
-
-    @app.get("/")
-    def read_root():
-        widget_page = os.path.join(FRONTEND_DIR, "widget.html")
-        if os.path.exists(widget_page):
-            return FileResponse(widget_page)
-        return {"message": "Verano RAG API Server is running. Visit /docs for OpenAPI documentation."}

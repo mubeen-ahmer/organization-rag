@@ -3,8 +3,6 @@
 __pycache__/
 
 
-run*
-
 schema_cache.txt
 
 bm25_index*
